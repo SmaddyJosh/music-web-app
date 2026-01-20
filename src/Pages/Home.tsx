@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fetchPopularTracks } from '../Services/API';
+
 import type { JamendoTrack } from '../Types';
 import { SongCard } from '../Components/Songcard';
 import { TopNav } from '../Components/Topnav';
