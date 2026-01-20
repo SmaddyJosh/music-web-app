@@ -55,13 +55,13 @@ export const MusicPlayer: React.FC = () => {
         ref={audioRef} 
         src={currentTrack.audio} 
         onEnded={() => togglePlay()} 
-        // THIS IS KEY: Update state constantly as it plays
+        
         onTimeUpdate={handleTimeUpdate}
-        // Load the duration once metadata is ready
+        
         onLoadedMetadata={handleTimeUpdate}
       />
       
-      {/* Left: Info */}
+      
       <div className="player-info">
         <img src={currentTrack.image} className="current-song-img" alt="cover" />
         <div className="player-text">
@@ -70,7 +70,7 @@ export const MusicPlayer: React.FC = () => {
         </div>
       </div>
 
-      {/* Center: Controls */}
+     
       <div className="player-controls">
         <div className="control-buttons">
           <i className="fa-solid fa-backward-step"></i>
@@ -81,10 +81,10 @@ export const MusicPlayer: React.FC = () => {
         </div>
 
         <div className="progress-container">
-          {/* Dynamic Current Time */}
+          
           <span>{formatTime(currentTime)}</span>
           
-          {/* Clickable Progress Bar */}
+      
           <div className="progress-bar" onClick={handleSeek}>
             <div 
               className="progress-fill" 
@@ -92,12 +92,12 @@ export const MusicPlayer: React.FC = () => {
             ></div>
           </div>
           
-          {/* Dynamic Duration */}
+          
           <span>{formatTime(duration || currentTrack.duration)}</span>
         </div>
       </div>
 
-      {/* Right: Extras */}
+    
       <div className="player-extras">
         <i className="fa-regular fa-heart"></i>
         <i className="fa-solid fa-volume-high"></i>

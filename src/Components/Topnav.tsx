@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../css/TopNav.css';
 
 
@@ -6,23 +6,38 @@ interface Props {
   onSearch: (query: string) => void;
 }
 
-export const TopNav: React.FC<Props> = ({onSearch}) => {
-    const [searchTerm, setSearchTerm] = React.useState("");
+export const TopNav: React.FC<Props> = ({ onSearch }) => {
+    const [searchTerm, setSearchTerm] = useState("");
+
+   
+    const triggerSearch = () => {
+        if (searchTerm.trim()) {
+            onSearch(searchTerm);
+        }
+    };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
-            onSearch(searchTerm);
+            triggerSearch();
         }
     }
 
   return (
     <header className="top-nav">
       <div className="search-bar">
-        <i className="fa-solid fa-magnifying-glass"></i>
-        <input type="text" placeholder="Search for a song" 
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        onKeyDown={handleKeyDown}
+       
+        <i 
+            className="fa-solid fa-magnifying-glass" 
+            onClick={triggerSearch}
+            style={{ cursor: 'pointer' }}
+        ></i>
+        
+        <input 
+            type="text" 
+            placeholder="Search for a song" 
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={handleKeyDown}
         />
       </div>
 

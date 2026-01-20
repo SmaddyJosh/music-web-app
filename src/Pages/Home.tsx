@@ -15,7 +15,7 @@ export const Home: React.FC = () => {
     const handleSearch = async (query: string) => {
     setLoading(true);
     try {
-        // Assuming your fetchSongs accepts a query arg: fetchSongs(query)
+        
         const data = await fetchSongs(query); 
         setSongs(data);
     } catch (error) {
@@ -24,9 +24,9 @@ export const Home: React.FC = () => {
     setLoading(false);
   };
 
-  // 2. Load default songs on mount
+  
   useEffect(() => {
-    handleSearch(''); // Empty string = fetch popular/default
+    handleSearch(''); 
   }, []);
   
 

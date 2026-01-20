@@ -27,10 +27,10 @@ export const fetchSongs = async (query: string = ''): Promise<JamendoTrack[]> =>
     let url = `https://api.jamendo.com/v3.0/tracks/?client_id=${CLIENT_ID}&format=jsonpretty&limit=20&imagesize=600`;
 
     if (query) {
-      // If searching, use the 'namesearch' parameter
+     
       url += `&namesearch=${encodeURIComponent(query)}&order=popularity_total`;
     } else {
-      // If no search, just get popular songs
+     
       url += `&order=popularity_total`;
     }
 
