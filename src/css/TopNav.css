@@ -1,0 +1,62 @@
+
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.search-bar {
+  background-color: var(--bg-card);
+  padding: 12px 20px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  width: 400px;
+  gap: 10px;
+  color: var(--text-gray);
+}
+
+.search-bar input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  width: 100%;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.user-info { text-align: right; }
+.user-name { font-size: 0.9rem; font-weight: 600; display: block; }
+.user-badge { 
+  font-size: 0.7rem; 
+  background-color: #2a3b35; 
+  color: #4CAF50; 
+  padding: 2px 8px; 
+  border-radius: 4px; 
+}
+
+.profile-pic {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background-color: #555;
+  background-image: url('src/images/muli.jpeg');
+  background-size: cover;
+}
+
+.action-btn {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: none;
+  color: var(--text-white);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

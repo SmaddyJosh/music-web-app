@@ -1,0 +1,45 @@
+/* src/pages/Home.css */
+.main-content {
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
+  padding: 30px 40px;
+  overflow-y: auto;
+}
+
+.section-header {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.category-chips {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 40px;
+  overflow-x: auto;
+}
+
+.chip {
+  padding: 8px 20px;
+  border-radius: 20px;
+  background-color: transparent;
+  border: 1px solid #333;
+  color: var(--text-gray);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: 0.3s;
+}
+
+.chip.active, .chip:hover {
+  background-color: #1DB998;
+  color: white;
+  border-color: #1DB998;
+}
+
+.songs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 20px;
+}
