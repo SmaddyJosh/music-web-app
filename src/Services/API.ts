@@ -22,22 +22,24 @@ export const fetchPopularTracks = async (): Promise<JamendoTrack[]> => {
   }
 };
 
-export const fetchSongs = async (query: string = ''): Promise<JamendoTrack[]> => {
+
+
+
+export const fetchSongs = async (query: string = '', tag: string = ''): Promise<JamendoTrack[]> => {
   try {
-    let url = `https://api.jamendo.com/v3.0/tracks/?client_id=${CLIENT_ID}&format=jsonpretty&limit=20&imagesize=600`;
+    let url = `https://api.jamendo.com/v3.0/tracks/?client_id=${CLIENT_ID}&format=jsonpretty&limit=20&imagesize=600&order=popularity_total`;
 
     if (query) {
      
-      url += `&namesearch=${encodeURIComponent(query)}&order=popularity_total`;
-    } else {
-     
-      url += `&order=popularity_total`;
+      url += `&namesearch=${encodeURIComponent(query)}`;
+    } else if (tag && tag !== 'All') {
+      
+      url += `&tags=${encodeURIComponent(tag.toLowerCase())}`;
     }
 
     const response = await fetch(url);
     const data = await response.json();
     
-    // Safety check in case API returns error or empty
     if (!data.results) return [];
 
     return data.results.map((track: any) => ({

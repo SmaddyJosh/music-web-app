@@ -6,7 +6,7 @@ export const MusicPlayer: React.FC = () => {
   const { currentTrack, isPlaying, togglePlay } = usePlayer();
   const audioRef = useRef<HTMLAudioElement>(null);
   
-  // 1. Add State to track time
+
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
 
@@ -17,11 +17,11 @@ export const MusicPlayer: React.FC = () => {
     }
   }, [isPlaying, currentTrack]);
 
-  // 2. Handler to update state while music plays
+  
   const handleTimeUpdate = () => {
     if (audioRef.current) {
       setCurrentTime(audioRef.current.currentTime);
-      // Determine duration from the audio file itself (more accurate than API sometimes)
+      
       setDuration(audioRef.current.duration);
     }
   };

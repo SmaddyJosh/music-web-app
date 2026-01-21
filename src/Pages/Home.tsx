@@ -8,15 +8,17 @@ import { fetchSongs } from '../Services/API';
 
 export const Home: React.FC = () => {
   const [songs, setSongs] = useState<JamendoTrack[]>([]);
-
-  
   const [loading, setLoading] = useState(true);
+  const [activeCategory, setActiveCategory] = useState('All');
+
+
+  const categories = ['All', 'Pop', 'Rock', 'Jazz', 'Electronic', 'HipHop', 'Indie', 'Chill'];
  
-    const handleSearch = async (query: string) => {
+    const handleSearch = async (query: string ='', tag: string ='') => {
     setLoading(true);
     try {
         
-        const data = await fetchSongs(query); 
+        const data = await fetchSongs(query, tag); 
         setSongs(data);
     } catch (error) {
         console.error("Search failed", error);
@@ -32,21 +34,31 @@ export const Home: React.FC = () => {
 
   return (
     <main className="main-content">
-      <TopNav onSearch={handleSearch} />
-
+      <TopNav onSearch={(query) => {
+          setActiveCategory('All');
+          handleSearch(query, '');
+      }} />
     
-      <section className="categories-section">
+     <section className="categories-section">
         <div className="section-header"><h3>Select Categories</h3></div>
         <div className="category-chips">
-          {['All', 'Relax', 'Sad', 'Party', 'Romance', 'Energetic'].map(cat => (
-            <button key={cat} className={`chip ${cat === 'All' ? 'active' : ''}`}>{cat}</button>
+          {categories.map(cat => (
+            <button 
+                key={cat} 
+                className={`chip ${activeCategory === cat ? 'active' : ''}`}
+                onClick={() => {
+                    setActiveCategory(cat);
+                    handleSearch('', cat); // Fetch songs by tag
+                }}
+            >
+                {cat}
+            </button>
           ))}
         </div>
       </section>
-
      
       <section className="popular-songs">
-        <div className="section-header"><h3>Popular Songs</h3></div>
+        <div className="section-header"><h3>{activeCategory === 'All' ? 'Popular Songs' : `${activeCategory} Songs`}</h3></div>
         
         {loading ? (
           <p>Loading tracks...</p>
