@@ -1,4 +1,4 @@
-/* src/components/Sidebar.css */
+
 .sidebar {
   background-color: var(--bg-panel);
   grid-row: 1 / 2;
@@ -57,6 +57,40 @@
   color: var(--text-gray);
   display: flex;
   justify-content: space-between;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  user-select: none;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.create-playlist-btn {
+ background-color:  #3e3e42;;
+  border: none;
+  cursor: pointer;
+  
+  
+  width: 32px; 
+  height: 32px;
+  border-radius: 50%;
+  
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  
+  transition: all 0.2s ease;
+  color:white;
+}
+.create-playlist-btn:hover {
+  color: #ffffff;
+  background-color: #282828;
+  transform: scale(1.1);
 }
 
 .playlist-item {
@@ -68,7 +102,7 @@
   color: var(--text-gray);
   cursor: pointer;
   text-decoration: none; 
-  transition: 0.3s;
+  transition: background-color 0.2s ease;
 }
 
 .playlist-img-placeholder {
@@ -85,3 +119,5 @@
 .playlist-img-placeholder {
   flex-shrink: 0; 
 }
+
+

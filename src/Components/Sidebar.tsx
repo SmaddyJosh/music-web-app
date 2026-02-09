@@ -4,8 +4,27 @@ import '../css/Sidebar.css';
 
 export const Sidebar: React.FC = () => {
 
-    const playlists = ['Vibes & Chill', 'Morning Boost', 'Rhythm & Energy'];
+  const [playlists, setPlaylists] = React.useState([
+  'Vibes & Chill',
+    'Morning Boost',
+    'Rhythm & Energy'
+  ]);
+  const[isOpen, setIsOpen] = React.useState(true);
 
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  }
+
+  const handleCreatePlaylist=(e: React.MouseEvent<HTMLButtonElement>) =>{
+    e.stopPropagation();
+    console.log("clicked")
+    const newPlaylistName = `New Playlist #${playlists.length + 1}`;
+    setPlaylists([...playlists, newPlaylistName]);
+
+    console.log(`Created: ${newPlaylistName}`);
+    
+
+  }
   // Helper to turn "Vibes & Chill" -> "vibes-chill"
   const getSlug = (name: string) => {
     return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
@@ -16,7 +35,7 @@ export const Sidebar: React.FC = () => {
         <i className="fa-solid fa-bolt"></i>
         <span>MuliPlay</span>
       </div>
-
+  
       <ul className="nav-links">
         <li>
           
@@ -51,20 +70,32 @@ export const Sidebar: React.FC = () => {
       </ul>
 
      
-      <div className="playlist-header">
-        <span>Playlists</span>
-        <i className="fa-solid fa-chevron-up"></i>
+      <div className="playlist-header" onClick={toggleDropdown}>
+        <div className='header-left'>
+          <i className={`fa-solid fa-chevron-${isOpen ? 'down' : 'right'}`} ></i>
+          <span>Playlists</span>
+        </div>
+         <button
+        className='create-playlist-btn'
+        onClick={handleCreatePlaylist}
+      > <i className="fa-solid fa-plus"></i></button>
+        
+         {/*<i className="fa-solid fa-chevron-up"></i>*/}
       </div>
-      <div className="playlist-list">
-        {playlists.map((list) => (
-          <NavLink 
+      
+      <div className='playlist-list'>
+        {playlists.map((list) =>(
+          <NavLink
             key={list}
-            to={`/playlist/${getSlug(list)}`}
+            to={`/playlist/${getSlug(list)}`} 
             className={({ isActive }) => `playlist-item ${isActive ? 'active' : ''}`}
+
           >
-            <div className="playlist-img-placeholder" /> 
+            <div className='playlist-img-placeholder'></div>
             <span>{list}</span>
+          
           </NavLink>
+
         ))}
       </div>
       

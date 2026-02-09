@@ -3,7 +3,7 @@ import { usePlayer } from '../Context/MusicContext';
 import '../css/MusicPlayer.css';
 
 export const MusicPlayer: React.FC = () => {
-  const { currentTrack, isPlaying, togglePlay } = usePlayer();
+  const { currentTrack, isPlaying, togglePlay, isFavorite ,toggleFavorite } = usePlayer();
   const audioRef = useRef<HTMLAudioElement>(null);
   
 
@@ -99,7 +99,9 @@ export const MusicPlayer: React.FC = () => {
 
     
       <div className="player-extras">
-        <i className="fa-regular fa-heart"></i>
+        <button className="fa-regular fa-heart"
+          onClick={() => toggleFavorite(currentTrack)}
+        ></button>
         <i className="fa-solid fa-volume-high"></i>
       </div>
     </footer>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '../css/TopNav.css';
-
+import {Link} from 'react-router-dom';
 
 interface Props {
   onSearch: (query: string) => void;
@@ -47,7 +47,10 @@ export const TopNav: React.FC<Props> = ({ onSearch }) => {
           <span className="user-badge">Premium</span>
         </div>
         <div className="profile-pic"></div>
-        <button className="action-btn"><i className="fa-regular fa-heart"></i></button>
+        <Link to="/favorites" className="action-btn">
+          <i className="fa-regular fa-heart"></i>
+          <span className="tooltip">Favorites</span>
+        </Link>
         <button className="action-btn"><i className="fa-solid fa-gear"></i></button>
       </div>
     </header>
