@@ -3,7 +3,7 @@ import { usePlayer } from '../Context/MusicContext';
 import '../css/MusicPlayer.css';
 
 export const MusicPlayer: React.FC = () => {
-  const { currentTrack, isPlaying, togglePlay, isFavorite ,toggleFavorite } = usePlayer();
+  const { currentTrack, isPlaying, togglePlay, toggleFavorite } = usePlayer();
   const audioRef = useRef<HTMLAudioElement>(null);
   
 

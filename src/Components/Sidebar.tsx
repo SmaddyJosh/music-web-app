@@ -9,6 +9,7 @@ export const Sidebar: React.FC = () => {
     'Morning Boost',
     'Rhythm & Energy'
   ]);
+  const [name, setName] = React.useState("");
   const[isOpen, setIsOpen] = React.useState(true);
 
   const toggleDropdown = () => {
@@ -24,6 +25,10 @@ export const Sidebar: React.FC = () => {
     console.log(`Created: ${newPlaylistName}`);
     
 
+  }
+
+  const handleInput=(event: React.ChangeEvent<HTMLInputElement>) => {
+    setName(event.target.value);
   }
   // Helper to turn "Vibes & Chill" -> "vibes-chill"
   const getSlug = (name: string) => {
@@ -79,6 +84,7 @@ export const Sidebar: React.FC = () => {
         className='create-playlist-btn'
         onClick={handleCreatePlaylist}
       > <i className="fa-solid fa-plus"></i></button>
+      <input onChange={handleInput} value={name}/>
         
          {/*<i className="fa-solid fa-chevron-up"></i>*/}
       </div>
