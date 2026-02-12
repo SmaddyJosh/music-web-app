@@ -11,6 +11,7 @@ export const Sidebar: React.FC = () => {
   ]);
   const [name, setName] = React.useState("");
   const[isOpen, setIsOpen] = React.useState(true);
+  const [editingPlaylist, setEditingPlaylist] = React.useState<string | null>(null);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -25,6 +26,10 @@ export const Sidebar: React.FC = () => {
     console.log(`Created: ${newPlaylistName}`);
     
 
+  }
+  const handlePlaylistCLick = (playlistName: string) => {
+    setEditingPlaylist(playlistName);
+    setName(playlistName);
   }
 
   const handleInput=(event: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,7 +89,7 @@ export const Sidebar: React.FC = () => {
         className='create-playlist-btn'
         onClick={handleCreatePlaylist}
       > <i className="fa-solid fa-plus"></i></button>
-      <input onChange={handleInput} value={name}/>
+     
         
          {/*<i className="fa-solid fa-chevron-up"></i>*/}
       </div>
@@ -95,10 +100,17 @@ export const Sidebar: React.FC = () => {
             key={list}
             to={`/playlist/${getSlug(list)}`} 
             className={({ isActive }) => `playlist-item ${isActive ? 'active' : ''}`}
+            onClick = {() => handlePlaylistCLick(list)}
 
           >
             <div className='playlist-img-placeholder'></div>
-            <span>{list}</span>
+            <span>{editingPlaylist === list? '' : list}</span>
+            {editingPlaylist === list && (
+              <input className='editInput' onChange={handleInput} value={name} autoFocus/>
+
+
+              )}
+             
           
           </NavLink>
 

@@ -120,4 +120,20 @@
   flex-shrink: 0; 
 }
 
+.editInput {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--primary);
+  color: var(--text-white);
+  font-size: 0.9rem;
+  padding: 4px 8px;
+  outline: none;
+  flex: 1;
+  max-width: 120px;
+  font-family: 'Poppins', sans-serif;
+  transition: border-color 0.2s ease;
+}
 
+.editInput:focus {
+  border-bottom-color: var(--text-white);
+}
