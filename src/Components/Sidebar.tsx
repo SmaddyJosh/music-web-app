@@ -12,9 +12,33 @@ export const Sidebar: React.FC = () => {
   const [name, setName] = React.useState("");
   const[isOpen, setIsOpen] = React.useState(true);
   const [editingPlaylist, setEditingPlaylist] = React.useState<string | null>(null);
+  const [contextMenu, setContextMenu] = React.useState<{x: number, y: number} | null>(null);
+  const [selectedPlaylist, setSelectedPlaylist] = React.useState<string | null>(null);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
+  }      
+
+  const handleRightClick = (e: React.MouseEvent<any>, playlistName: string) => {
+    e.preventDefault();
+    setContextMenu({ x: e.clientX, y: e.clientY });
+    setSelectedPlaylist(playlistName);
+  }
+
+  const handleEditClick = () => {
+    if (selectedPlaylist){
+      setEditingPlaylist(selectedPlaylist);
+      setName(selectedPlaylist);
+    }
+    setContextMenu(null);
+  }
+
+  const handleSave = () => {
+    if (editingPlaylist && name.trim() && selectedPlaylist) {
+      setPlaylists(playlists.map(pl => pl === editingPlaylist ? name : pl));
+      setEditingPlaylist(null);
+      setSelectedPlaylist(null);
+    } 
   }
 
   const handleCreatePlaylist=(e: React.MouseEvent<HTMLButtonElement>) =>{
@@ -27,10 +51,11 @@ export const Sidebar: React.FC = () => {
     
 
   }
+  {/*
   const handlePlaylistCLick = (playlistName: string) => {
     setEditingPlaylist(playlistName);
     setName(playlistName);
-  }
+  }*/}
 
   const handleInput=(event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
@@ -39,6 +64,19 @@ export const Sidebar: React.FC = () => {
   const getSlug = (name: string) => {
     return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
   };
+
+  React.useEffect(() => {
+    const handleClickOutside = () => {
+      setContextMenu(null);
+
+    
+    };
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
+
   return (
     <aside className="sidebar">
       <div className="logo">
@@ -100,13 +138,18 @@ export const Sidebar: React.FC = () => {
             key={list}
             to={`/playlist/${getSlug(list)}`} 
             className={({ isActive }) => `playlist-item ${isActive ? 'active' : ''}`}
-            onClick = {() => handlePlaylistCLick(list)}
+            onContextMenu={(e) =>handleRightClick(e, list)}
 
           >
             <div className='playlist-img-placeholder'></div>
             <span>{editingPlaylist === list? '' : list}</span>
             {editingPlaylist === list && (
-              <input className='editInput' onChange={handleInput} value={name} autoFocus/>
+              <input className='editInput' onChange={handleInput} value={name} autoFocus
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') handleSave();
+                  if (e.key === 'Escape') setEditingPlaylist(null);
+                }}
+              />
 
 
               )}
@@ -116,8 +159,17 @@ export const Sidebar: React.FC = () => {
 
         ))}
       </div>
+      {contextMenu && (
+        <div 
+          className="context-menu"
+          style={{ top: contextMenu.y, left: contextMenu.x }}
+        >
+          <button onClick={handleEditClick}>Edit</button>
+          <button onClick = {()=>setContextMenu(null)}>Close  </button>
+        </div>
+      )}
       
       
     </aside>
   );
-};
+}
