@@ -26,13 +26,30 @@ export const TopNav: React.FC<Props> = ({ onSearch }) => {
     }
     const ToggleTheme = (mode: 'dark' | 'light') => {
       setIsDarkMode(mode === 'dark');
-      if (mode === 'light') {
-        document.body.classList.add('light-mode');
-      } else {
-        document.body.classList.remove('light-mode');
-      }
+     
       setShowThemeMenu(false);
     }
+
+    React.useEffect(() => {
+      if (isDarkMode) {
+        document.body.classList.remove('light-mode');
+      } else {
+        document.body.classList.add('light-mode');
+      }
+    }, [isDarkMode]);
+
+   React.useEffect(() => {
+       const handleClickOutside = (e: MouseEvent) => {
+         if (!(e.target as Element).closest('.theme-selector')) {
+           setShowThemeMenu(false);
+         }
+       };
+       document.addEventListener('click', handleClickOutside);
+       return () => {
+         document.removeEventListener('click', handleClickOutside);
+       };
+     }, []);
+      
 
   return (
     <header className="top-nav">
@@ -63,6 +80,7 @@ export const TopNav: React.FC<Props> = ({ onSearch }) => {
           <i className="fa-regular fa-heart"></i>
           <span className="tooltip">Favorites</span>
         </Link>
+        <div className='theme-selector'>
         <button className="action-btn" onClick={() => setShowThemeMenu(!showThemeMenu)}><i className="fa-solid fa-gear"></i></button>
 
         {showThemeMenu && (
@@ -73,6 +91,7 @@ export const TopNav: React.FC<Props> = ({ onSearch }) => {
               <i className="fa-solid fa-sun"></i> Light Mode</button>
           </div>
         )}
+        </div>
             
           
       </div>
