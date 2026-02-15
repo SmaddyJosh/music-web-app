@@ -8,6 +8,8 @@ interface Props {
 
 export const TopNav: React.FC<Props> = ({ onSearch }) => {
     const [searchTerm, setSearchTerm] = useState("");
+    const [isDarkMode, setIsDarkMode] = useState(true);
+    const [showThemeMenu, setShowThemeMenu] = useState(false);
 
    
     const triggerSearch = () => {
@@ -20,6 +22,16 @@ export const TopNav: React.FC<Props> = ({ onSearch }) => {
         if (e.key === 'Enter') {
             triggerSearch();
         }
+
+    }
+    const ToggleTheme = (mode: 'dark' | 'light') => {
+      setIsDarkMode(mode === 'dark');
+      if (mode === 'light') {
+        document.body.classList.add('light-mode');
+      } else {
+        document.body.classList.remove('light-mode');
+      }
+      setShowThemeMenu(false);
     }
 
   return (
@@ -51,7 +63,18 @@ export const TopNav: React.FC<Props> = ({ onSearch }) => {
           <i className="fa-regular fa-heart"></i>
           <span className="tooltip">Favorites</span>
         </Link>
-        <button className="action-btn"><i className="fa-solid fa-gear"></i></button>
+        <button className="action-btn" onClick={() => setShowThemeMenu(!showThemeMenu)}><i className="fa-solid fa-gear"></i></button>
+
+        {showThemeMenu && (
+          <div className="theme-dropdown">
+            <button onClick={() => ToggleTheme('dark')}>
+              <i className="fa-solid fa-moon"></i> Dark Mode</button>
+            <button onClick={() => ToggleTheme('light')}>
+              <i className="fa-solid fa-sun"></i> Light Mode</button>
+          </div>
+        )}
+            
+          
       </div>
     </header>
   );

@@ -84,3 +84,36 @@
   visibility: visible;
   transform: translateX(-50%) translateY(-5px); /* slight lift animation */
 }
+
+.theme-selector {
+  position: relative;
+}
+
+.theme-dropdown {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background-color: var(--bg-card);
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 8px 0;
+  z-index: 1000;
+  min-width: 150px;
+}
+
+.theme-dropdown button {
+  display: block;
+  width: 100%;
+  padding: 10px 16px;
+  background: none;
+  border: none;
+  color: var(--text-white);
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.2s;
+}
+
+.theme-dropdown button:hover {
+  background-color: var(--bg-panel);
+  color: var(--primary);
+}
