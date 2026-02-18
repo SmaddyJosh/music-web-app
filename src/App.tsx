@@ -6,6 +6,8 @@ import { MusicPlayer } from './Components/MusicPlayer';
 import { Home } from './Pages/Home';
 import { PlayerProvider } from './Context/MusicContext';
 import { PlaylistPage } from './Pages/PlayList';
+import { Favorites } from './Pages/Favorites';
+import { ThemeProvider } from './Context/ThemeContext';
 
 
 const Categories = () => <div style={{color:'white', padding:'50px'}}>Categories Page</div>;
@@ -13,24 +15,28 @@ const Artists = () => <div style={{color:'white', padding:'50px'}}>Artists Page<
 
 function App() {
   return (
-    <PlayerProvider>
-      <BrowserRouter>
-        <div className="app-container">
-          <Sidebar />
+    <BrowserRouter>
+      <ThemeProvider>
+        <PlayerProvider>
           
+            <div className="app-container">
+              <Sidebar />
+              
+              
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/categories" element={<Categories />} />
+                <Route path="/artists" element={<Artists />} />
+                <Route path="/favorites" element={<Favorites />} />
+                <Route path="/playlist/:id" element={<PlaylistPage />} />
+              </Routes>
+
+              <MusicPlayer />
+            </div>
           
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/categories" element={<Categories />} />
-            <Route path="/artists" element={<Artists />} />
-
-            <Route path="/playlist/:id" element={<PlaylistPage />} />
-          </Routes>
-
-          <MusicPlayer />
-        </div>
-      </BrowserRouter>
-    </PlayerProvider>
+        </PlayerProvider>
+      </ThemeProvider>
+    </BrowserRouter>
   );
 }
 

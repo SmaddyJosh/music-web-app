@@ -21,7 +21,7 @@
   background: transparent;
   border: none;
   outline: none;
-  color: white;
+  color: var(--text-white);
   width: 100%;
 }
 
@@ -63,7 +63,7 @@
 
 .action-btn .tooltip {
   position: absolute;
-  bottom: 50px;              /* Adjust to appear above the button */
+  bottom: 50px;             
   left: 50%;
   transform: translateX(-50%);
   background: #333;
@@ -116,4 +116,18 @@
 .theme-dropdown button:hover {
   background-color: var(--bg-panel);
   color: var(--primary);
+}
+.theme-icon-moon {
+  color:#fff;
+}
+
+.theme-icon-sun {
+  color: #f59e0b;
+}
+
+.theme-selector {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }

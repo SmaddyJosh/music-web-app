@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '../css/TopNav.css';
 import {Link} from 'react-router-dom';
+import { useTheme } from '../Context/ThemeContext';
 
 interface Props {
   onSearch: (query: string) => void;
@@ -8,7 +9,7 @@ interface Props {
 
 export const TopNav: React.FC<Props> = ({ onSearch }) => {
     const [searchTerm, setSearchTerm] = useState("");
-    const [isDarkMode, setIsDarkMode] = useState(true);
+    const { isDarkMode, toggleTheme } = useTheme();
     const [showThemeMenu, setShowThemeMenu] = useState(false);
 
    
@@ -25,19 +26,12 @@ export const TopNav: React.FC<Props> = ({ onSearch }) => {
 
     }
     const ToggleTheme = (mode: 'dark' | 'light') => {
-      setIsDarkMode(mode === 'dark');
+      toggleTheme(mode)
      
       setShowThemeMenu(false);
     }
 
-    React.useEffect(() => {
-      if (isDarkMode) {
-        document.body.classList.remove('light-mode');
-      } else {
-        document.body.classList.add('light-mode');
-      }
-    }, [isDarkMode]);
-
+    
    React.useEffect(() => {
        const handleClickOutside = (e: MouseEvent) => {
          if (!(e.target as Element).closest('.theme-selector')) {
@@ -81,14 +75,15 @@ export const TopNav: React.FC<Props> = ({ onSearch }) => {
           <span className="tooltip">Favorites</span>
         </Link>
         <div className='theme-selector'>
-        <button className="action-btn" onClick={() => setShowThemeMenu(!showThemeMenu)}><i className="fa-solid fa-gear"></i></button>
+        <button className="action-btn"><i className="fa-solid fa-gear"></i></button>
+        <button className="action-btn" onClick={() => setShowThemeMenu(!showThemeMenu)}><i className={isDarkMode ? "fa-solid fa-moon theme-icon-moon" : "fa-solid fa-sun theme-icon-sun"}></i></button>
 
         {showThemeMenu && (
           <div className="theme-dropdown">
             <button onClick={() => ToggleTheme('dark')}>
-              <i className="fa-solid fa-moon"></i> Dark Mode</button>
+              <i className="fa-solid fa-moon theme-icon-moon"></i> Dark Mode</button>
             <button onClick={() => ToggleTheme('light')}>
-              <i className="fa-solid fa-sun"></i> Light Mode</button>
+              <i className="fa-solid fa-sun theme-icon-sun"></i> Light Mode</button>
           </div>
         )}
         </div>

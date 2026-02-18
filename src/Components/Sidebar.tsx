@@ -81,7 +81,7 @@ export const Sidebar: React.FC = () => {
     <aside className="sidebar">
       <div className="logo">
         <i className="fa-solid fa-bolt"></i>
-        <span>MuliPlay</span>
+        <span >MuliPlay</span>
       </div>
   
       <ul className="nav-links">
