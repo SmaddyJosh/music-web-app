@@ -86,7 +86,7 @@
   transform: translateX(-50%) translateY(-5px); /* slight lift animation */
 }
 .action-btn:hover{
-  background-color: #1DB998;;
+  background-color: #1DB998;
 }
 
 .theme-selector {
