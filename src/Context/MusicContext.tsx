@@ -34,12 +34,18 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   };
 
   const playTrack = (track: JamendoTrack) => {
-    setCurrentTrack(track);
-    setIsPlaying(true);
+    if (currentTrack?.id === track.id) {
+     
+      setIsPlaying(!isPlaying);
+    } else {
+      
+      setCurrentTrack(track);
+      setIsPlaying(true);
+    }
   };
 
   const togglePlay = () => {
-    if (currentTrack) setIsPlaying(!isPlaying);
+    setIsPlaying(!isPlaying);
   };
 
   return (

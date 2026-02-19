@@ -91,3 +91,11 @@
   width: 250px;
   justify-content: flex-end;
 }
+
+.like {
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+.like.active { color: var(--primary); }

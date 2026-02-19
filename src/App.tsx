@@ -8,9 +8,10 @@ import { PlayerProvider } from './Context/MusicContext';
 import { PlaylistPage } from './Pages/PlayList';
 import { Favorites } from './Pages/Favorites';
 import { ThemeProvider } from './Context/ThemeContext';
+import { Categories } from './Pages/Categories';
 
 
-const Categories = () => <div style={{color:'white', padding:'50px'}}>Categories Page</div>;
+
 const Artists = () => <div style={{color:'white', padding:'50px'}}>Artists Page</div>;
 
 function App() {

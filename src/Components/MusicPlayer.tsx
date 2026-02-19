@@ -3,12 +3,14 @@ import { usePlayer } from '../Context/MusicContext';
 import '../css/MusicPlayer.css';
 
 export const MusicPlayer: React.FC = () => {
-  const { currentTrack, isPlaying, togglePlay, toggleFavorite } = usePlayer();
+  const { currentTrack, isPlaying, togglePlay, toggleFavorite,isFavorite } = usePlayer();
   const audioRef = useRef<HTMLAudioElement>(null);
   
 
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+
+  const favorite = isFavorite(currentTrack?.id || 0);
 
   useEffect(() => {
     if (audioRef.current) {
@@ -95,13 +97,14 @@ export const MusicPlayer: React.FC = () => {
           
           <span>{formatTime(duration || currentTrack.duration)}</span>
         </div>
-      </div>
+      </div>``
 
     
       <div className="player-extras">
-        <button className="fa-regular fa-heart"
+        <button className={`like ${favorite ? 'active' : ''}`}
           onClick={() => toggleFavorite(currentTrack)}
-        ></button>
+        > {favorite ? "❤️" : "🤍"}</ button>
+
         <i className="fa-solid fa-volume-high"></i>
       </div>
     </footer>
