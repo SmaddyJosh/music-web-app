@@ -137,3 +137,16 @@
 .editInput:focus {
   border-bottom-color: var(--text-white);
 }
+
+.chip {
+  padding: 10px;
+  border-radius: 20px;
+  background-color: transparent;
+  border: 1px solid #333;
+  color: var(--text-gray);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: 0.3s;
+  
+  
+}

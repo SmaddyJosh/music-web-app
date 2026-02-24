@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, use, useContext, useState } from 'react';
 import type { JamendoTrack } from '../Types';
 
 interface PlayerContextType {
@@ -16,7 +16,14 @@ const PlayerContext = createContext<PlayerContextType | undefined>(undefined);
 export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentTrack, setCurrentTrack] = useState<JamendoTrack | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [favorites, setFavorites] = useState<JamendoTrack[]>([]);
+  const [favorites, setFavorites] = useState<JamendoTrack[]>( ()=> {
+    const saved = localStorage.getItem('favorites');
+    return saved ? JSON.parse(saved) : [null];
+  });
+
+  React.useEffect(() => {
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+  }, [favorites]);
 
   const toggleFavorite = (track: JamendoTrack) => {
     setFavorites((prevFavorites) => {

@@ -4,11 +4,21 @@ import '../css/Sidebar.css';
 
 export const Sidebar: React.FC = () => {
 
-  const [playlists, setPlaylists] = React.useState([
+  const [playlists, setPlaylists] = React.useState( ()=>{
+    const saved = localStorage.getItem('playlists');
+    return saved ? JSON.parse(saved) : [
+  
+    
   'Vibes & Chill',
     'Morning Boost',
     'Rhythm & Energy'
-  ]);
+  ]});
+
+  React.useEffect(() => {
+    localStorage.setItem('playlists', JSON.stringify(playlists));
+  }, [playlists]);
+
+
   const [name, setName] = React.useState("");
   const[isOpen, setIsOpen] = React.useState(true);
   const [editingPlaylist, setEditingPlaylist] = React.useState<string | null>(null);
@@ -25,6 +35,14 @@ export const Sidebar: React.FC = () => {
     setSelectedPlaylist(playlistName);
   }
 
+  const handleDeleteClick = () => {
+  if (selectedPlaylist) {
+    setPlaylists(playlists.filter((pl: string) => pl !== selectedPlaylist));
+    setSelectedPlaylist(null);
+    setContextMenu(null);
+  }
+}
+
   const handleEditClick = () => {
     if (selectedPlaylist){
       setEditingPlaylist(selectedPlaylist);
@@ -35,7 +53,7 @@ export const Sidebar: React.FC = () => {
 
   const handleSave = () => {
     if (editingPlaylist && name.trim() && selectedPlaylist) {
-      setPlaylists(playlists.map(pl => pl === editingPlaylist ? name : pl));
+      setPlaylists(playlists.map((pl: string) => pl === editingPlaylist ? name : pl));
       setEditingPlaylist(null);
       setSelectedPlaylist(null);
     } 
@@ -133,7 +151,7 @@ export const Sidebar: React.FC = () => {
       </div>
       
       <div className='playlist-list'>
-        {playlists.map((list) =>(
+        {playlists.map((list: string ) =>(
           <NavLink
             key={list}
             to={`/playlist/${getSlug(list)}`} 
@@ -164,8 +182,9 @@ export const Sidebar: React.FC = () => {
           className="context-menu"
           style={{ top: contextMenu.y, left: contextMenu.x }}
         >
-          <button onClick={handleEditClick}>Edit</button>
-          <button onClick = {()=>setContextMenu(null)}>Close  </button>
+          <button className='chip' onClick={handleEditClick}>Edit</button>
+          <button className='chip' onClick={handleDeleteClick}>Delete</button>
+          <button className='chip' onClick = {()=>setContextMenu(null)}>Close  </button>
         </div>
       )}
       
