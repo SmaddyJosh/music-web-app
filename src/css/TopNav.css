@@ -45,7 +45,7 @@
   width: 40px; height: 40px;
   border-radius: 50%;
   background-color: #555;
-  background-image: url('src/images/muli.jpeg');
+  background-image: url('/muli.jpeg');
   background-size: cover;
 }
 

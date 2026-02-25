@@ -37,6 +37,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   };
 
   const isFavorite = (trackId: number) => {
+    if (!trackId) return false;
     return favorites.some((track) => track.id === trackId);
   };
 
