@@ -1,4 +1,4 @@
-import React, { createContext, use, useContext, useState } from 'react';
+import React, { createContext,  useContext, useState } from 'react';
 import type { JamendoTrack } from '../Types';
 
 interface PlayerContextType {
