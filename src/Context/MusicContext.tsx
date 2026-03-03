@@ -7,7 +7,7 @@ interface PlayerContextType {
   playTrack: (track: JamendoTrack) => void;
   togglePlay: () => void;
   favorites: JamendoTrack[];
-  toggleFavorite: (track: JamendoTrack) => void;
+  toggleFavorite: (track: JamendoTrack | null) => void;
   isFavorite: (trackId:number) => boolean;
 }
 
@@ -18,14 +18,26 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [isPlaying, setIsPlaying] = useState(false);
   const [favorites, setFavorites] = useState<JamendoTrack[]>( ()=> {
     const saved = localStorage.getItem('favorites');
-    return saved ? JSON.parse(saved) : [null];
+    if (!saved) return [];
+
+  try {
+    const parsed = JSON.parse(saved);
+    return Array.isArray(parsed)
+      ? parsed.filter((item) => item && item.id)
+      : [];
+  } catch (error) {
+    console.error("Error parsing favorites from localStorage:", error);
+    return [];
+  
+  }
   });
 
   React.useEffect(() => {
     localStorage.setItem('favorites', JSON.stringify(favorites));
   }, [favorites]);
 
-  const toggleFavorite = (track: JamendoTrack) => {
+  const toggleFavorite = (track: JamendoTrack |null) => {
+    if (!track) return;
     setFavorites((prevFavorites) => {
       const isFav = prevFavorites.find((fav) => fav.id === track.id);
       if (isFav) {
@@ -36,9 +48,9 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     });
   };
 
-  const isFavorite = (trackId: number) => {
+  const isFavorite = (trackId?:number) => {
     if (!trackId) return false;
-    return favorites.some((track) => track.id === trackId);
+    return favorites.some((track) =>track && track.id === trackId);
   };
 
   const playTrack = (track: JamendoTrack) => {

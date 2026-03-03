@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { usePlayer } from '../Context/MusicContext';
 import '../css/MusicPlayer.css';
+import type { JamendoTrack } from '../Types';
 
 export const MusicPlayer: React.FC = () => {
   const { currentTrack, isPlaying, togglePlay, toggleFavorite,isFavorite } = usePlayer();
@@ -9,13 +10,31 @@ export const MusicPlayer: React.FC = () => {
 
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [showPlaylistMenu, setShowPlaylistMenu] = useState(false);
+  const playlists =JSON.parse(localStorage.getItem('playlists') || '[]');
+  
+  const handleAddToPlaylist = (playlistName: string) => {
+    if (!currentTrack) return
+  const playlistkey = `playlist_${playlistName}`;
+  const playlistTracks =JSON.parse(localStorage.getItem(playlistkey) || '[]');
+
+    if (!playlistTracks.find((t : JamendoTrack) => t.id === currentTrack.id)) {
+      playlistTracks.push(currentTrack);
+      localStorage.setItem(playlistkey, JSON.stringify(playlistTracks));
+    }
+    setShowPlaylistMenu(false);
+  }
 
   const favorite = isFavorite(currentTrack?.id || 0);
 
   useEffect(() => {
     if (audioRef.current) {
-      if (isPlaying) audioRef.current.play();
-      else audioRef.current.pause();
+      if (isPlaying && currentTrack){
+
+      audioRef.current.play().catch((error) => {
+        console.error("Error playing audio:", error)
+        });
+      }else audioRef.current.pause();
     }
   }, [isPlaying, currentTrack]);
 
@@ -79,7 +98,7 @@ export const MusicPlayer: React.FC = () => {
           <div className="play-btn" onClick={togglePlay}>
             {isPlaying ? <i className="fa-solid fa-pause"></i> : <i className="fa-solid fa-play"></i>}
           </div>
-          <i className="fa-solid fa-forward-step"></i>
+          <i className="fa-solid fa-forward-step"></i>6
         </div>
 
         <div className="progress-container">
@@ -97,12 +116,37 @@ export const MusicPlayer: React.FC = () => {
           
           <span>{formatTime(duration || currentTrack.duration)}</span>
         </div>
-      </div>``
+      </div>
+
+      <div className="playlist-selector">
+  <button 
+    className="player-btn"
+    onClick={() => setShowPlaylistMenu(!showPlaylistMenu)}
+  >
+    <i className="fa-solid fa-plus"></i>
+  </button>
+  
+  {showPlaylistMenu && (
+    <div className="playlist-menu">
+      {playlists.map((playlistName: string) => (
+        <button
+          key={playlistName}
+          onClick={() => handleAddToPlaylist(playlistName)}
+        >
+          {playlistName}
+        </button>
+      ))}
+    </div>
+  )}
+</div>
 
     
       <div className="player-extras">
         <button className={`like ${favorite ? 'active' : ''}`}
-          onClick={() => toggleFavorite(currentTrack)}
+          onClick={(e) =>{ 
+            e.stopPropagation();
+            e.preventDefault();            
+            toggleFavorite(currentTrack)}}
         > {favorite ? "❤️" : "🤍"}</ button>
 
         <i className="fa-solid fa-volume-high"></i>
