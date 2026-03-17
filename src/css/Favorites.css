@@ -1,49 +1,27 @@
-import React, { useEffect } from 'react';.p-8 {
-import type { JamendoTrack } from '../Types';
-
-import '../css/Playlist.css';
-import { SongCard } from '../Components/Songcard';
-import { useParams } from 'react-router-dom';
-
+.p-8 {
+    padding: 2rem;
 }
-export const PlaylistPage: React.FC = () => {
-  // This grabs the "vibes-chill" p
-  const [songs, setSongs] = React.useState<JamendoTrack[]>([])
-  const { id } = useParams(); 
-
-  useEffect(() => {.mb-8 {
-    // Get playlists from localStorage margin-bottom: 2rem;
-    const allPlaylists = JSON.parse(localStorage.getItem('playlists') || '[]');
-    
-    // Find the playlist that matches this slug-500 {
-    const playlistName = allPlaylists.find((pl: string) => 
-      pl.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '') === id
-    );
+.text-3xl {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+}
+.font-bold {
+    font-weight: 700;
+}
+.mb-8 {
+    margin-bottom: 2rem;
+}
+.text-gray-500 {
+    color: #6b7280;
+}
 .song-grid {
-    if (playlistName) {
-      // Load songs from localStorage using the correct key
-      const playlistKey = `playlist_${playlistName}`;
-      const savedSongs = JSON.parse(localStorage.getItem(playlistKey) || '[]');
-      setSongs(savedSongs);
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+@media (max-width: 768px) {
+    .song-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 1rem;
     }
-  }, [id]);768px) {
-
-  const title = id?.replace(/-/g, ' ').toUpperCase();ate-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 1rem;
-  return (
-    <main className="main-content">      <h2 style={{color: 'white'}}>Playlist: {title}</h2>      <p style={{color: '#a1a1aa'}}>Songs for {id} will appear here.</p>
-
-            {songs.length === 0 ? (
-              <p className="text-gray-500">You haven't liked any songs yet.</p>
-            ) : (
-              <div className="song-grid">
-                {songs.map((song) => (
-                  <SongCard key={song.id} track={song} />
-                ))}
-              </div>
-            )}
-
-      
-    </main>
-  );
-};
+}

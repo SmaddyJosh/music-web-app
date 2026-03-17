@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from 'react';
+import { useOutletContext } from 'react-router-dom';
 
 import type { JamendoTrack } from '../Types';
 import { SongCard } from '../Components/Songcard';
-import { TopNav } from '../Components/Topnav';
+   
 import '../css/Home.css';
 import { fetchSongs } from '../Services/API';
 
+interface LayoutContext {
+  searchQuery: string;    
+}
+
 export const Home: React.FC = () => {
+  const { searchQuery } = useOutletContext<LayoutContext>(); 
   const [songs, setSongs] = useState<JamendoTrack[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState('All');
@@ -28,17 +34,18 @@ export const Home: React.FC = () => {
 
   
   useEffect(() => {
-    handleSearch(''); 
-  }, []);
+    if (searchQuery) {
+      setActiveCategory('All');
+      handleSearch(searchQuery,"")
+  }else{
+    handleSearch("", activeCategory);
+  }
+}, [searchQuery]);
   
 
   return (
     <main className="main-content">
-      <TopNav onSearch={(query) => {
-          setActiveCategory('All');
-          handleSearch(query, '');
-      }} />
-    
+     
      <section className="categories-section">
         <div className="section-header"><h3>Select Categories</h3></div>
         <div className="category-chips">

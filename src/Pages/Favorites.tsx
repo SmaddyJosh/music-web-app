@@ -6,7 +6,7 @@ export const Favorites = () => {
   const { favorites } = usePlayer();
 
   return (      
-    <div className="p-8">
+    <main className="main-content p-8">
       <h1 className="text-3xl font-bold mb-8">My Favorites</h1>
       
       {favorites.length === 0 ? (
@@ -18,6 +18,6 @@ export const Favorites = () => {
           ))}
         </div>
       )}
-    </div>
+    </main>
   );
 };

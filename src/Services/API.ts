@@ -1,6 +1,6 @@
 import type { JamendoTrack } from '../Types';
 
-const CLIENT_ID = '587c0510';
+const CLIENT_ID = import.meta.env.VITE_APIKEY;
 export const fetchPopularTracks = async (): Promise<JamendoTrack[]> => {
   try {
     const response = await fetch(
@@ -30,16 +30,16 @@ export const fetchSongs = async (query: string = '', tag: string = ''): Promise<
     let url = `https://api.jamendo.com/v3.0/tracks/?client_id=${CLIENT_ID}&format=jsonpretty&limit=20&imagesize=600&order=popularity_total`;
 
     if (query) {
-     
+
       url += `&namesearch=${encodeURIComponent(query)}`;
     } else if (tag && tag !== 'All') {
-      
+
       url += `&tags=${encodeURIComponent(tag.toLowerCase())}`;
     }
 
     const response = await fetch(url);
     const data = await response.json();
-    
+
     if (!data.results) return [];
 
     return data.results.map((track: any) => ({

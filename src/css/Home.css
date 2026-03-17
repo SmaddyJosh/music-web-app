@@ -1,7 +1,6 @@
 /* src/pages/Home.css */
 .main-content {
-  grid-column: 2 / 3;
-  grid-row: 1 / 2;
+  flex: 1;
   padding: 30px 40px;
   overflow-y: auto;
 }
