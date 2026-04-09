@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import '../css/TopNav.css';
 import {Link} from 'react-router-dom';
 import { useTheme } from '../Context/ThemeContext';
+import { SettingsModal } from './SettingsModal';
 
 interface Props {
   onSearch: (query: string) => void;
@@ -11,6 +12,8 @@ export const TopNav: React.FC<Props> = ({ onSearch }) => {
     const [searchTerm, setSearchTerm] = useState("");
     const { isDarkMode, toggleTheme } = useTheme();
     const [showThemeMenu, setShowThemeMenu] = useState(false);
+    const [showSettings, setShowSettings] = useState(false);
+    const [username, setUsername] = useState(() => localStorage.getItem('muliPlay_username') || 'SmaddyJosh');
 
    
     const triggerSearch = () => {
@@ -66,7 +69,7 @@ export const TopNav: React.FC<Props> = ({ onSearch }) => {
 
       <div className="user-profile">
         <div className="user-info">
-          <span className="user-name">SmaddyJosh</span>
+          <span className="user-name">{username}</span>
           <span className="user-badge">Premium</span>
         </div>
         <div className="profile-pic"></div>
@@ -75,7 +78,7 @@ export const TopNav: React.FC<Props> = ({ onSearch }) => {
           <span className="tooltip">Favorites</span>
         </Link>
         <div className='theme-selector'>
-        <button className="action-btn"><i className="fa-solid fa-gear"></i></button>
+        <button className="action-btn" onClick={() => setShowSettings(true)}><i className="fa-solid fa-gear"></i></button>
         <button className="action-btn" onClick={() => setShowThemeMenu(!showThemeMenu)}><i className={isDarkMode ? "fa-solid fa-moon theme-icon-moon" : "fa-solid fa-sun theme-icon-sun"}></i></button>
 
         {showThemeMenu && (
@@ -86,6 +89,7 @@ export const TopNav: React.FC<Props> = ({ onSearch }) => {
               <i className="fa-solid fa-sun theme-icon-sun"></i> Light Mode</button>
           </div>
         )}
+        {showSettings && <SettingsModal onClose={() => setShowSettings(false)} onUsernameUpdate={setUsername} />}
         </div>
             
           

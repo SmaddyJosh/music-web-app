@@ -10,6 +10,7 @@ import { Categories } from './Pages/Categories';
 import { Login } from './Pages/Login';
 import { AuthProvider } from './Context/AuthContext';
 import { MainLayout } from './Components/Mainlayout';
+import { Register } from './Pages/Register';
 
 
 
@@ -28,6 +29,7 @@ function App() {
                 
                 <Routes>
                   <Route path="/login" element={<Login />} />
+                  <Route path="/register" element={<Register />} />
                   <Route element={<MainLayout />}>
 
                   <Route path="/" element={<Home />} />
