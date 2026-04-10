@@ -8,13 +8,21 @@ export const Login: React.FC = () => {
     const [password, setPassword] = useState('');
     const { login } = useAuth();
     const navigate = useNavigate();
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
-    const handleLogin = (e: React.FormEvent) => {
+    const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (email && password) {
-            login(email);
+        setError('');
+        setLoading(true);
+
+        const result=await login(email, password);
+        if (result.success) {
             navigate('/');
+        } else {
+            setError(result.error);
         }
+        setLoading(false);
     };
     
     return (

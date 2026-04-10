@@ -57,7 +57,20 @@
   cursor: pointer;
   transition: 0.3s;
 }
-.auth-btn:hover { background-color: #e66a40; }
+.auth-btn:hover:not(:disabled) { background-color: #e66a40; }
+.auth-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.auth-error {
+  background-color: #ff4444;
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
 
 .auth-link {
   margin-top: 20px;

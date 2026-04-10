@@ -9,20 +9,29 @@ export const Register: React.FC = () => {
     const [password1, setPassword1] = useState('');
     const { register } = useAuth();
     const navigate = useNavigate();
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
-    const handleRegister = (e: React.FormEvent) => {
+    const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (email && password && password === password1) {
-            register(email);
-            navigate('/');
-        }
+        setError('');
+        
         if (password !== password1) {
-            alert("Passwords do not match");
+            setError("Passwords do not match");
             setPassword('');
-            setPassword1('');   
-            
+            setPassword1('');
+            return;
         }
 
+        setLoading(true);
+
+        const result = await register(email, password);
+        if (result.success) {
+            navigate('/login');
+        } else {
+            setError(result.error);
+        }
+        setLoading(false);
     };
 
     return (
@@ -32,6 +41,7 @@ export const Register: React.FC = () => {
                     <i className="fa-solid fa-bolt"></i><span>MuliPlay</span>
                 </div>
                 <form className="auth-form" onSubmit={handleRegister}>
+                    {error && <div className="auth-error">{error}</div>}
                     <input type="email" 
                         placeholder="Email address"
                         className="auth-input"
@@ -47,7 +57,7 @@ export const Register: React.FC = () => {
                         required
                     />
 
-                     <input type="password"
+                    <input type="password"
                         placeholder="Enter password again"
                         className="auth-input"
                         value={password1}
@@ -55,7 +65,9 @@ export const Register: React.FC = () => {
                         required
                     />
 
-                    <button type="submit" className="auth-btn">Sign Up</button>
+                    <button type="submit" className="auth-btn" disabled={loading}>
+                        {loading ? 'Signing Up...' : 'Sign Up'}
+                    </button>
                 </form>
                 <div className="auth-link">
                     Already have an account? <Link to ="/login"><span> Login</span></Link>
