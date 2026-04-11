@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';   
 import '../css/Sidebar.css';
+import { useAuth } from '../Context/AuthContext';
 
 export const Sidebar: React.FC = () => {
 
@@ -24,6 +25,7 @@ export const Sidebar: React.FC = () => {
   const [editingPlaylist, setEditingPlaylist] = React.useState<string | null>(null);
   const [contextMenu, setContextMenu] = React.useState<{x: number, y: number} | null>(null);
   const [selectedPlaylist, setSelectedPlaylist] = React.useState<string | null>(null);
+  const { user, logout } = useAuth();
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -174,8 +176,14 @@ export const Sidebar: React.FC = () => {
              
           
           </NavLink>
+          
 
         ))}
+        {user && (
+          <button className='logout-btn' onClick={logout}>
+            <i className="fa-solid fa-right-from-bracket"></i> Logout
+          </button>
+        )}
       </div>
       {contextMenu && (
         <div 

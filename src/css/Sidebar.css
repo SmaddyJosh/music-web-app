@@ -147,6 +147,26 @@
   cursor: pointer;
   white-space: nowrap;
   transition: 0.3s;
-  
-  
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 15px;
+  border-radius: 12px;
+  background-color: transparent;
+  border: none;
+  color: var(--text-gray);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: 0.3s;
+  width: 100%;
+  font-family: 'Poppins', sans-serif;
+  margin-top: 15px;
+}
+
+.logout-btn:hover {
+  background-color: #2a2b30;
+  color: #ff6b6b;
 }

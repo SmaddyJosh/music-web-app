@@ -32,6 +32,7 @@ export const Login: React.FC = () => {
                     <i className="fa-solid fa-bolt"></i><span>MuliPlay</span>
                 </div>
                 <form className="auth-form" onSubmit={handleLogin}>
+                    {error && <div className="auth-error">{error}</div>}
                     <input type="email" 
                         placeholder="Email address"
                         className="auth-input"
@@ -44,11 +45,11 @@ export const Login: React.FC = () => {
                         className="auth-input"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        required        
-
-                    
+                        required
                     />
-                    <button type="submit" className="auth-btn">Login</button>
+                    <button type="submit" className="auth-btn" disabled={loading}>
+                        {loading ? 'Logging in...' : 'Login'}
+                    </button>
                 </form>
                 <div className="auth-link">
                     Dont have an account? <Link to ="/register"><span> Sign up</span></Link>
