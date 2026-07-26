@@ -8,13 +8,14 @@ interface Props {
 }
 
 export const SongCard: React.FC<Props> = ({ track }) => {
-  const { playTrack } = usePlayer();
+  const { playTrack, isPlaying } = usePlayer();
 
   return (
     <div className="song-card" onClick={() => playTrack(track)}>
       <div className="card-image-wrapper">
         <img src={track.image} alt={track.name} />
-        <div className="play-overlay"><i className="fa-solid fa-play"></i></div>
+        <div className="play-overlay">
+          {isPlaying ? <i className="fa-solid fa-pause"></i> : <i className="fa-solid fa-play"></i>}</div>
       </div>
       <div className="card-title">{track.name}</div>
       <div className="card-artist">{track.artist_name}</div>

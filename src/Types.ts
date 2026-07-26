@@ -6,3 +6,10 @@ export interface JamendoTrack {
   audio: string;
   duration: number;
 }
+
+export interface JamendoArtist {
+  id: string;
+  name: string;
+  image: string;
+  joindate: string;
+}

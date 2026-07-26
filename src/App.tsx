@@ -14,7 +14,8 @@ import { Register } from './Pages/Register';
 
 
 
-const Artists = () => <div style={{color:'white', padding:'50px'}}>Artists Page</div>;
+import { Artists } from './Pages/Artists';
+import { ArtistDetails } from './Pages/ArtistDetails';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
                   <Route path="/" element={<Home />} />
                   <Route path="/categories" element={<Categories />} />
                   <Route path="/artists" element={<Artists />} />
+                  <Route path="/artist/:id" element={<ArtistDetails />} />
                   <Route path="/favorites" element={<Favorites />} />
                   <Route path="/playlist/:id" element={<PlaylistPage />} />
                   </Route>

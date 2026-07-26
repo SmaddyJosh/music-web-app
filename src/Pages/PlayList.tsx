@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom';
 
 
 export const PlaylistPage: React.FC = () => {
-  // This grabs the "vibes-chill" p
+
   const [songs, setSongs] = React.useState<JamendoTrack[]>([])
   const { id } = useParams(); 
 
@@ -15,13 +15,13 @@ export const PlaylistPage: React.FC = () => {
     // Get playlists from localStorage
     const allPlaylists = JSON.parse(localStorage.getItem('playlists') || '[]');
     
-    // Find the playlist that matches this slug
+
     const playlistName = allPlaylists.find((pl: string) => 
       pl.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '') === id
     );
 
     if (playlistName) {
-      // Load songs from localStorage using the correct key
+     
       const playlistKey = `playlist_${playlistName}`;
       const savedSongs = JSON.parse(localStorage.getItem(playlistKey) || '[]');
       setSongs(savedSongs);

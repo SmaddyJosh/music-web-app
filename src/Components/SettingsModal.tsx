@@ -4,10 +4,26 @@ import '../css/SettingsModal.css';
 interface Props {
   onClose: () => void;
   onUsernameUpdate: (newUsername: string) => void;
+  avatar: string;
+  onAvatarUpdate: (newAvatar: string) => void;
 }
 
-export const SettingsModal: React.FC<Props> = ({ onClose, onUsernameUpdate }) => {
+export const SettingsModal: React.FC<Props> = ({ onClose, onUsernameUpdate, avatar, onAvatarUpdate }) => {
   const [activeTab, setActiveTab] = useState<'equalizer' | 'profile' | 'notifications'>('equalizer');
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
+
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const result = reader.result as string;
+        localStorage.setItem('muliPlay_avatar', result);
+        onAvatarUpdate(result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const [username, setUsername] = useState(() => localStorage.getItem('muliPlay_username') || 'SmaddyJosh');
   
@@ -123,8 +139,20 @@ export const SettingsModal: React.FC<Props> = ({ onClose, onUsernameUpdate }) =>
               <h3 className="settings-section-title">My Profile</h3>
               
               <div className="avatar-section">
-                <div className="avatar-preview"></div>
-                <button className="change-avatar-btn">Change Avatar</button>
+                <div 
+                  className="avatar-preview"
+                  style={{ backgroundImage: `url(${avatar})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+                ></div>
+                <button className="change-avatar-btn" onClick={() => fileInputRef.current?.click()}>
+                  Change Avatar
+                </button>
+                <input 
+                  type="file" 
+                  ref={fileInputRef} 
+                  style={{ display: 'none' }} 
+                  accept="image/*"
+                  onChange={handleAvatarChange} 
+                />
               </div>
 
               <div className="input-group">

@@ -135,3 +135,58 @@
   align-items: center;
   gap: 10px;
 }
+
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex: 1;
+}
+
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-white);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  .top-nav {
+    padding: 15px;
+    gap: 15px;
+  }
+
+  .mobile-menu-btn {
+    display: block;
+  }
+
+  .search-container {
+    flex: 1;
+    min-width: 0; /* allows flex items to shrink below minimum content size */
+  }
+
+  .search-bar {
+    width: 100%;
+    padding: 8px 15px;
+  }
+  
+  .user-profile {
+    gap: 10px;
+  }
+
+  .user-info {
+    display: none; /* Hide user name and badge to save space */
+  }
+
+  .action-btn {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .profile-pic {
+    width: 35px;
+    height: 35px;
+  }
+}

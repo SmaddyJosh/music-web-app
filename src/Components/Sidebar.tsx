@@ -3,7 +3,12 @@ import { NavLink } from 'react-router-dom';
 import '../css/Sidebar.css';
 import { useAuth } from '../Context/AuthContext';
 
-export const Sidebar: React.FC = () => {
+interface Props {
+  isOpenMobile?: boolean;
+  onCloseMobile?: () => void;
+}
+
+export const Sidebar: React.FC<Props> = ({ isOpenMobile, onCloseMobile }) => {
 
   const [playlists, setPlaylists] = React.useState( ()=>{
     const saved = localStorage.getItem('playlists');
@@ -85,6 +90,21 @@ export const Sidebar: React.FC = () => {
     return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
   };
 
+  const getPlaylistImage = (playlistName: string) => {
+    try {
+      const savedSongs = localStorage.getItem(`playlist_${playlistName}`);
+      if (savedSongs) {
+        const parsed = JSON.parse(savedSongs);
+        if (parsed && parsed.length > 0 && parsed[0].image) {
+          return parsed[0].image;
+        }
+      }
+    } catch (e) {
+      console.error("Error reading playlist image", e);
+    }
+    return null;
+  };
+
   React.useEffect(() => {
     const handleClickOutside = () => {
       setContextMenu(null);
@@ -98,7 +118,8 @@ export const Sidebar: React.FC = () => {
   }, []);
 
   return (
-    <aside className="sidebar">
+    <>
+    <aside className={`sidebar ${isOpenMobile ? 'mobile-open' : ''}`}>
       <div className="logo">
         <i className="fa-solid fa-bolt"></i>
         <span >MuliPlay</span>
@@ -159,9 +180,12 @@ export const Sidebar: React.FC = () => {
             to={`/playlist/${getSlug(list)}`} 
             className={({ isActive }) => `playlist-item ${isActive ? 'active' : ''}`}
             onContextMenu={(e) =>handleRightClick(e, list)}
-
           >
-            <div className='playlist-img-placeholder'></div>
+            {getPlaylistImage(list) ? (
+              <img src={getPlaylistImage(list)!} alt={list} className="playlist-img-placeholder" style={{ objectFit: 'cover' }} />
+            ) : (
+              <div className='playlist-img-placeholder'></div>
+            )}
             <span>{editingPlaylist === list? '' : list}</span>
             {editingPlaylist === list && (
               <input className='editInput' onChange={handleInput} value={name} autoFocus
@@ -170,11 +194,7 @@ export const Sidebar: React.FC = () => {
                   if (e.key === 'Escape') setEditingPlaylist(null);
                 }}
               />
-
-
-              )}
-             
-          
+            )}
           </NavLink>
           
 
@@ -198,5 +218,7 @@ export const Sidebar: React.FC = () => {
       
       
     </aside>
+    {isOpenMobile && <div className="sidebar-overlay" onClick={onCloseMobile}></div>}
+    </>
   );
 }

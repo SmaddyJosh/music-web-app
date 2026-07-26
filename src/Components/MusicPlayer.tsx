@@ -11,7 +11,17 @@ export const MusicPlayer: React.FC = () => {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [showPlaylistMenu, setShowPlaylistMenu] = useState(false);
+  const [volume, setVolume] = useState(1);
+  const [showVolumeSlider, setShowVolumeSlider] = useState(false);
   const playlists =JSON.parse(localStorage.getItem('playlists') || '[]');
+  
+  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newVolume = parseFloat(e.target.value);
+    setVolume(newVolume);
+    if (audioRef.current) {
+      audioRef.current.volume = newVolume;
+    }
+  };
   
   const handleAddToPlaylist = (playlistName: string) => {
     if (!currentTrack) return
@@ -49,11 +59,12 @@ export const MusicPlayer: React.FC = () => {
 
   //  Handler to allow clicking on the bar to seek
   const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (audioRef.current && duration) {
+    const currentDuration = duration || (currentTrack ? currentTrack.duration : 0);
+    if (audioRef.current && currentDuration) {
       const bar = e.currentTarget;
       const clickPosition = e.nativeEvent.offsetX;
       const barWidth = bar.clientWidth;
-      const seekTime = (clickPosition / barWidth) * duration;
+      const seekTime = (clickPosition / barWidth) * currentDuration;
       
       audioRef.current.currentTime = seekTime;
       setCurrentTime(seekTime);
@@ -98,7 +109,7 @@ export const MusicPlayer: React.FC = () => {
           <div className="play-btn" onClick={togglePlay}>
             {isPlaying ? <i className="fa-solid fa-pause"></i> : <i className="fa-solid fa-play"></i>}
           </div>
-          <i className="fa-solid fa-forward-step"></i>6
+          <i className="fa-solid fa-forward-step"></i>
         </div>
 
         <div className="progress-container">
@@ -109,7 +120,7 @@ export const MusicPlayer: React.FC = () => {
           <div className="progress-bar" onClick={handleSeek}>
             <div 
               className="progress-fill" 
-              style={{ width: `${(currentTime / duration) * 100}%` }}
+              style={{ width: `${(duration || currentTrack.duration) ? (currentTime / (duration || currentTrack.duration)) * 100 : 0}%` }}
             ></div>
           </div>
           
@@ -149,7 +160,24 @@ export const MusicPlayer: React.FC = () => {
             toggleFavorite(currentTrack)}}
         > {favorite ? "❤️" : "🤍"}</ button>
 
-        <i className="fa-solid fa-volume-high"></i>
+        <div className="volume-control" style={{ display: 'flex', alignItems: 'center', gap: '8px', position: 'relative' }}>
+          <i 
+            className={`fa-solid ${volume === 0 ? 'fa-volume-xmark' : volume < 0.5 ? 'fa-volume-low' : 'fa-volume-high'}`}
+            style={{ cursor: 'pointer' }}
+            onClick={() => setShowVolumeSlider(!showVolumeSlider)}
+          ></i>
+          {showVolumeSlider && (
+            <input 
+              type="range" 
+              min="0" 
+              max="1" 
+              step="0.01" 
+              value={volume} 
+              onChange={handleVolumeChange} 
+              className="volume-slider"
+            />
+          )}
+        </div>
       </div>
     </footer>
   );

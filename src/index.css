@@ -30,7 +30,7 @@ body.light-mode {
 body {
   background-color: var(--bg-dark);
   color: var(--text-white);
-  height: 100vh;
+  height: 100dvh;
   overflow: hidden;
 }
 

@@ -25,6 +25,8 @@ export const Register: React.FC = () => {
 
         setLoading(true);
 
+
+        
         const result = await register(email, password);
         if (result.success) {
             navigate('/login');
